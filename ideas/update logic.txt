@@ -1,0 +1,26 @@
+
+UPDATE PROBLEM
+
+// update function will be an array
+
+
+
+registerUpdateMethod(fn){
+    updateList.push(fb)
+}
+
+
+// each time when _update() will be called
+
+__update(){
+    for(){
+        updateList[i]()
+        // call the fn in series
+
+
+
+        // so each class can add multiple updates withot coping 
+        // things around
+    }
+}
+

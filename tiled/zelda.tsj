@@ -1,0 +1,14 @@
+{ "columns":37,
+ "image":"..\/assets\/player_sprite.png",
+ "imageheight":1040,
+ "imagewidth":1200,
+ "margin":0,
+ "name":"zelda",
+ "spacing":0,
+ "tilecount":1184,
+ "tiledversion":"1.9.1",
+ "tileheight":32,
+ "tilewidth":32,
+ "type":"tileset",
+ "version":"1.8"
+}
