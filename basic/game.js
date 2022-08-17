@@ -1,11 +1,18 @@
 class Game {
 
+    currentRoom = null
+    rooms = []
+
     constructor() {
     }
 
-    generateRoom(){
-        let room = new Room()
-
-        room.generate()
+    addRoom(room){
+        this.rooms.push(room)
     }
+
+    setCurrentRoom(room){
+        this.currentRoom = room
+    }
+
+    
 }

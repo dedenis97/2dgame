@@ -1,4 +1,4 @@
-class Player extends GameElement {
+class Player extends PhysicElement {
 
     keys = {
         "ArrowUp": false,
@@ -7,13 +7,7 @@ class Player extends GameElement {
         "ArrowRight": false,
     }
 
-    // for preventing collision
-    blockMovement = {
-        "ArrowUp": false,
-        "ArrowDown": false,
-        "ArrowLeft": false,
-        "ArrowRight": false,
-    }
+
 
 
     constructor() {
@@ -25,7 +19,7 @@ class Player extends GameElement {
 
         this.sprite = {
 
-            "static": {
+            "current": {
                 start: { x: 7, y: 13 },
                 end: { x: 102, y: 130 }
             },
@@ -33,7 +27,7 @@ class Player extends GameElement {
             "idle": null,
             "jump": null,
             "run": {
-                "bottom": {
+                "down": {
                     start: { x: 7, y: 13 },
                     end: { x: 102, y: 130 }
                 },
@@ -59,77 +53,28 @@ class Player extends GameElement {
     _update() {
         // check future collision adding vector to position
 
-        let playerF = JSON.parse(JSON.stringify(this))
-
-        playerF.position.x += playerF.vector.x * (playerF.speed + 5)
-        playerF.position.y += playerF.vector.y * (playerF.speed + 5)
-
-        let ctx = display.ctx
-
-        ctx.beginPath();
-        ctx.strokeStyle = "red";
-        ctx.rect(playerF.position.x, playerF.position.y, playerF.size.width, playerF.size.height);
-        ctx.stroke();
+        this.checkCollisionProximity("mob")
 
 
-        ctx.beginPath();
-        ctx.strokeStyle = "black";
-        ctx.rect(this.position.x, this.position.y, this.size.width, this.size.height);
-        ctx.stroke();
-
-
-
-        let collision = Collisions.checkCollisionWithTag(playerF, 'mob')
-        let collisionDirection
-
-        if (collision.status) {
-
-            collisionDirection = this.vector.getDirection()
-
-            this.vector = new Vector()
-
-            if (collisionDirection.includes("up")) {
-                this.blockMovement.ArrowUp = true
-            }
-            if (collisionDirection.includes("bottom")) {
-                this.blockMovement.ArrowDown = true
-            }
-            if (collisionDirection.includes("left")) {
-                this.blockMovement.ArrowLeft = true
-            }
-            if (collisionDirection.includes("right")) {
-                this.blockMovement.ArrowRight = true
-            }
-        }
-        else {
-            this.blockMovement = {
-                "ArrowUp": false,
-                "ArrowDown": false,
-                "ArrowLeft": false,
-                "ArrowRight": false,
-            }
-        }
-
-        console.log(this.blockMovement.ArrowRight);
-        if (this.keys.ArrowUp && !this.blockMovement.ArrowUp) {
+        if (this.keys.ArrowUp && !this.blockMovement.up) {
             this.sprite.static = this.sprite.run['up']
             this.vector.addOnAxis('y', -1)
             this.vector.norm()
         }
 
-        if (this.keys.ArrowDown && !this.blockMovement.ArrowDown) {
-            this.sprite.static = this.sprite.run['bottom']
+        if (this.keys.ArrowDown && !this.blockMovement.down) {
+            this.sprite.static = this.sprite.run['down']
             this.vector.addOnAxis('y', 1)
             this.vector.norm()
         }
 
-        if (this.keys.ArrowLeft && !this.blockMovement.ArrowLeft) {
+        if (this.keys.ArrowLeft && !this.blockMovement.left) {
             this.sprite.static = this.sprite.run['left']
             this.vector.addOnAxis('x', -1)
             this.vector.norm()
         }
 
-        if (this.keys.ArrowRight && !this.blockMovement.ArrowRight) {
+        if (this.keys.ArrowRight && !this.blockMovement.right) {
             this.sprite.static = this.sprite.run['right']
             this.vector.addOnAxis('x', 1)
             this.vector.norm()

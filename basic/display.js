@@ -11,6 +11,10 @@ class Display {
         height: 640
     }
 
+    SHOW_HITBOXES = true
+    SHOW_COLLISION_PROXIMITY = true
+
+
     constructor(canvas) {
         this.canvas = canvas
         this.canvas.width = this.canvasSettings.width
@@ -19,12 +23,17 @@ class Display {
         this.ctx = canvas.getContext('2d')
     }
 
-    animate(elements) {
-        this.clearCanvas()
 
-        for (let i = 0; i < elements.length; i++) {
-            this.draw(elements[i])
-        }
+    drawRoomBackground(imgLink){
+        let image = new Image()
+        image.src = imgLink
+
+        this.ctx.drawImage(
+            image,
+            0,
+            0,
+            this.canvasSettings.width,
+            this.canvasSettings.height)
 
     }
 
@@ -32,15 +41,17 @@ class Display {
         let image = new Image()
         image.src = element.sprite.src
 
-        if (element.sprite.static != null) {
+        this.drawMobUI(element)
 
-            let sizeX = element.sprite.static.end.x - element.sprite.static.start.x
-            let sizeY = element.sprite.static.end.y - element.sprite.static.start.y
+        if (element.sprite.current != null) {
+
+            let sizeX = element.sprite.current.end.x - element.sprite.current.start.x
+            let sizeY = element.sprite.current.end.y - element.sprite.current.start.y
 
             this.ctx.drawImage(
                 image,
-                element.sprite.static.start.x,
-                element.sprite.static.start.y,
+                element.sprite.current.start.x,
+                element.sprite.current.start.y,
                 sizeX,
                 sizeY,
                 element.position.x,
@@ -70,9 +81,57 @@ class Display {
         }
         this.currentFrameIndex++
 
+
+        if (this.SHOW_HITBOXES && element instanceof PhysicElement) {
+            this.ctx.beginPath();
+            this.ctx.strokeStyle = "black";
+            this.ctx.rect(element.position.x, element.position.y, element.size.width, element.size.height);
+            this.ctx.stroke();
+        }
     }
 
     clearCanvas() {
         this.ctx.clearRect(0, 0, this.canvasSettings.width, this.canvasSettings.height)
+    }
+
+    drawBar(element, boundaries, color) {
+
+        let percCurrentHp = (element.hp / element.totHp) * 100
+        let percHp = boundaries.w / (100 / percCurrentHp)
+
+        this.ctx.beginPath();
+        this.ctx.strokeStyle = "#000"
+        this.ctx.rect(
+            element.position.x - boundaries.x,
+            element.position.y - boundaries.y,
+            boundaries.w, boundaries.h);
+        this.ctx.stroke();
+
+        this.ctx.fillStyle = "#3334"
+        this.ctx.fillRect(
+            element.position.x - boundaries.x,
+            element.position.y - boundaries.y,
+            boundaries.w, boundaries.h);
+
+        this.ctx.fillStyle = color
+        this.ctx.fillRect(
+            element.position.x - boundaries.x,
+            element.position.y - boundaries.y,
+            percHp, boundaries.h);
+
+    }
+
+    drawMobUI(element) {
+
+        if (element instanceof DummyTarget) {
+
+            this.drawBar(element, {
+                x: 0,
+                y: 20,
+                w: 70,
+                h: 5
+            }, '#fc493d')
+
+        }
     }
 }

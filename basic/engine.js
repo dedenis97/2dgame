@@ -6,17 +6,21 @@ class Engine {
         this.elements.push(element)
     }
 
+    addElements(elements) {
+        this.elements.push(...elements)
+    }
+
     start() {
         for (let i = 0; i < this.elements.length; i++) {
 
             let ele = this.elements[i]
-            
+
             ele._update()
-            
-            ele.position.x += ele.vector.x * ele.speed
-            ele.position.y += ele.vector.y * ele.speed
 
-
+            if (ele instanceof PhysicElement) {
+                ele.position.x += ele.vector.x * ele.speed
+                ele.position.y += ele.vector.y * ele.speed
+            }
         }
     }
 }
