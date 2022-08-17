@@ -74,11 +74,11 @@ class BaseElement {
         }
     }
 
-    setTag(tag) {
+    addTag(tag) {
         this.tags.push(tag)
     }
 
-    setTags(tags) {
+    addTags(tags) {
         this.tags.concat(tags)
     }
 

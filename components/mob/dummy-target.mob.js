@@ -13,7 +13,8 @@ class DummyTarget extends Mob {
         // this.setPosition(300, 0)
         this.setSize(60, 60)
 
-        this.setTag('mob')
+        this.addTag('mob')
+        this.addTag('block')
 
 
         this.hp = this.totHp = 1000

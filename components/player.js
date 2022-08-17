@@ -8,14 +8,13 @@ class Player extends PhysicElement {
     }
 
 
-
-
     constructor() {
 
         super()
 
         this.speed = 2.5
         this.setSize(40, 40)
+        this.setPosition(480, 320)
 
         this.sprite = {
 
@@ -51,31 +50,29 @@ class Player extends PhysicElement {
 
 
     _update() {
-        // check future collision adding vector to position
 
-        this.checkCollisionProximity("mob")
-
+        this.checkCollisionProximity("block")
 
         if (this.keys.ArrowUp && !this.blockMovement.up) {
-            this.sprite.static = this.sprite.run['up']
+            this.sprite.current = this.sprite.run['up']
             this.vector.addOnAxis('y', -1)
             this.vector.norm()
         }
 
         if (this.keys.ArrowDown && !this.blockMovement.down) {
-            this.sprite.static = this.sprite.run['down']
+            this.sprite.current = this.sprite.run['down']
             this.vector.addOnAxis('y', 1)
             this.vector.norm()
         }
 
         if (this.keys.ArrowLeft && !this.blockMovement.left) {
-            this.sprite.static = this.sprite.run['left']
+            this.sprite.current = this.sprite.run['left']
             this.vector.addOnAxis('x', -1)
             this.vector.norm()
         }
 
         if (this.keys.ArrowRight && !this.blockMovement.right) {
-            this.sprite.static = this.sprite.run['right']
+            this.sprite.current = this.sprite.run['right']
             this.vector.addOnAxis('x', 1)
             this.vector.norm()
         }

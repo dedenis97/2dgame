@@ -7,8 +7,10 @@ class Room {
 
     roomName = null
     roomLink = null
+    roomCollissions = []
 
     constructor(roomName) {
         this.roomLink = ROOM_CONFIG[roomName].link
+        this.roomCollissions = ROOM_CONFIG[roomName].collisions
     }
 }

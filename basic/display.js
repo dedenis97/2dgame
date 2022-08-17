@@ -82,7 +82,7 @@ class Display {
         this.currentFrameIndex++
 
 
-        if (this.SHOW_HITBOXES && element instanceof PhysicElement) {
+        if (this.SHOW_HITBOXES && (element instanceof PhysicElement || element.hasTag('room_collision_element'))) {
             this.ctx.beginPath();
             this.ctx.strokeStyle = "black";
             this.ctx.rect(element.position.x, element.position.y, element.size.width, element.size.height);
